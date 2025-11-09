@@ -11,6 +11,19 @@ async function listFiles(dirPath) {
         return { name: file, isDirectory: stats.isDirectory() };
       })
     );
+
+    filesInfo.sort((a, b) => {
+      if (a.isDirectory && b.isDirectory) {
+        return a.name.localeCompare(b.name);
+      } else if (a.isDirectory && !b.isDirectory) {
+        return -1;
+      } else if (!a.isDirectory && b.isDirectory) {
+        return 1;
+      } else {
+        return a.name.localeCompare(b.name);
+      }
+    });
+
     return filesInfo;
   } catch (error) {
     throw new Error(

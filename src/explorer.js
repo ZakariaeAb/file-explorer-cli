@@ -1,5 +1,6 @@
 const fs = require("fs").promises;
 const path = require("path");
+const { sizeFormatter } = require("./utils");
 
 async function listFiles(dirPath) {
   try {
@@ -8,7 +9,11 @@ async function listFiles(dirPath) {
       files.map(async (file) => {
         const fullPath = path.join(dirPath, file);
         const stats = await fs.stat(fullPath);
-        return { name: file, isDirectory: stats.isDirectory() };
+        return {
+          name: file,
+          isDirectory: stats.isDirectory(),
+          size: stats.isDirectory() ? null : sizeFormatter(stats.size),
+        };
       })
     );
 

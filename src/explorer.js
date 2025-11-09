@@ -1,6 +1,6 @@
 const fs = require("fs").promises;
 const path = require("path");
-const { sizeFormatter } = require("./utils");
+const { sizeFormatter, dateFormatter } = require("./utils");
 
 async function listFiles(dirPath) {
   try {
@@ -13,6 +13,7 @@ async function listFiles(dirPath) {
           name: file,
           isDirectory: stats.isDirectory(),
           size: stats.isDirectory() ? null : sizeFormatter(stats.size),
+          lastModification: dateFormatter(stats.mtime),
         };
       })
     );
